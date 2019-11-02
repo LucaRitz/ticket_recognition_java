@@ -17,7 +17,9 @@ public class Main {
         Cti cti = new Cti();
         Matcher matcher = cti.matcher(Algorithms.SIFT.name());
         System.out.println(matcher);
-        MetadataReader reader = cti.reader(Algorithms.SIFT.name());
+
+        matcher.delete();
+        System.out.println("deleted");
 
         /*TicketImage image = new TicketImage("a_picture.jpg");
         Optional<TicketMatch> matched = matcher.match(image);

@@ -3,16 +3,15 @@ package com.bfh.ticket;
 import java.util.List;
 
 public class Ticket {
+    private long pointer;
     private final String name;
     private final TicketImage image;
     private final List<Text> texts;
-    private final List<BoundingBox> matchingAreas;
 
-    public Ticket(String name, TicketImage image, List<Text> texts, List<BoundingBox> matchingAreas) {
+    public Ticket(String name, TicketImage image, List<Text> texts) {
        this.name = name;
        this.image = image;
        this.texts = texts;
-       this.matchingAreas = matchingAreas;
     }
 
     public String getName() {
@@ -27,7 +26,14 @@ public class Ticket {
         return texts;
     }
 
-    public List<BoundingBox> getMatchingAreas() {
-        return matchingAreas;
+    // TODO: may remove public
+    public void setPointer(long pointer) {
+        this.pointer = pointer;
     }
+
+    public void delete() {
+        delete(pointer);
+    }
+
+    public native void delete(long pointer);
 }

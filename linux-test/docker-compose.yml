@@ -1,0 +1,9 @@
+# SET COMPOSE_CONVERT_WINDOWS_PATHS=1
+version: '3'
+services:
+  linux_jcpp_test:
+    build:
+      context: './'
+    volumes:
+      - ../:/usr/local/bin/build
+    container_name: linux_jcpp_test

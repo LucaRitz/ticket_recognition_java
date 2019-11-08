@@ -5,7 +5,7 @@ import java.util.Map;
 public class Metadata {
     private final long pointer;
 
-    public Metadata(long pointer) {
+    private Metadata(long pointer) {
         this.pointer = pointer;
     }
 

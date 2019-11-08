@@ -26,14 +26,13 @@ public class Ticket {
         return texts;
     }
 
-    // TODO: may remove public
-    public void setPointer(long pointer) {
-        this.pointer = pointer;
-    }
-
     public void delete() {
         delete(pointer);
     }
 
-    public native void delete(long pointer);
+    long getPointer() {
+        return pointer;
+    }
+
+    private native void delete(long pointer);
 }

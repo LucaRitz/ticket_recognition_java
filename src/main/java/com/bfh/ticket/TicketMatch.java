@@ -1,20 +1,15 @@
 package com.bfh.ticket;
 
 public class TicketMatch {
-    private final long pointer;
+    private final long ticketPointer;
 
-    public TicketMatch(long pointer) {
-        this.pointer = pointer;
+    private TicketMatch(long ticketPointer) {
+        this.ticketPointer = ticketPointer;
     }
 
-    public String getName() {
-        return getName(pointer);
+    public Ticket getTicket() {
+        return getTicket(ticketPointer);
     }
 
-    public void delete() {
-        delete(pointer);
-    }
-
-    private native String getName(long pointer);
-    private native void delete(long pointer);
+    private native Ticket getTicket(long ticketPointer);
 }

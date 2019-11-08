@@ -7,7 +7,7 @@ public class Matcher {
 
     private final long pointer;
 
-    public Matcher(long pointer) {
+    private Matcher(long pointer) {
         this.pointer = pointer;
     }
 

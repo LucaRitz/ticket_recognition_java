@@ -7,13 +7,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,14 +39,40 @@ class CtiTest {
     }
 
     @Test
-    void cti_createMatcherAndDelete_matcherCreatedd() {
+    void cti_createMatcherAndDelete_matcherCreated() throws IOException {
         // Act
         Matcher matcher = cti.matcher(Algorithms.SIFT.name());
+
+        Path file = extract(CtiTest.class.getResourceAsStream("/Ticket.jpg"));
+        List<Text> texts = new ArrayList<>();
+        texts.add(new Text("name", new BoundingBox(new Point(0,0), new Point(100,100))));
+        Ticket ticket = new Ticket("template_1", new TicketImage(file.toAbsolutePath().normalize().toString()), texts);
+        matcher.train(ticket);
+
+        Optional<TicketMatch> match = matcher.match(new TicketImage(file.toAbsolutePath().normalize().toString()));
+        System.out.println("Is present: " + match.isPresent());
+        if (match.isPresent()) {
+            System.out.println("Matched name: " + match.get().getTicket().getName());
+
+            MetadataReader reader = cti.reader(Algorithms.SIFT.name());
+            Metadata data = reader.read(ticket, new TicketImage(file.toAbsolutePath().normalize().toString()));
+            Map<String, String> extracted = data.getTexts();
+            for(Map.Entry<String, String> entry : extracted.entrySet()) {
+                System.out.println("Key: " + entry.getKey() + "    Value: " + entry.getValue());
+            }
+
+            reader.delete();
+            data.delete();
+        }
 
         // Assert
         assertNotNull(matcher);
 
+        System.out.println("Delete all");
         matcher.delete();
+        System.out.println("Delete ticket");
+        ticket.delete();
+        System.out.println("All deleted");
     }
 
     @Test
@@ -146,5 +172,12 @@ class CtiTest {
 
     private int randomInt(int min, int max) {
         return (new Random()).nextInt(max + 1 - min) + min;
+    }
+
+    private Path extract(InputStream resource) throws IOException {
+        String tmpDir = System.getProperty("java.io.tmpdir");
+        Path file = Paths.get(tmpDir, "file.jpg");
+        Files.copy(resource, file, StandardCopyOption.REPLACE_EXISTING);
+        return file;
     }
 }

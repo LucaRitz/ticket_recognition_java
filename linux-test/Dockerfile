@@ -8,6 +8,7 @@ RUN apt-get -y update && \
     apt-get install -y openjdk-8-jdk
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+ENV TESSDATA_PREFIX=/usr/local/bin/build/src/main/resources/tessdata/
 
 ADD execute_test.sh /usr/local/bin/execute_test.sh
 RUN chmod 777 /usr/local/bin/execute_test.sh

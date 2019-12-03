@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 class CtiTest {
+
+    private static final Logger LOG = Logger.getLogger(CtiTest.class.getName());
 
     private Cti cti;
 
@@ -45,20 +48,20 @@ class CtiTest {
 
         Path file = extract(CtiTest.class.getResourceAsStream("/Ticket.jpg"));
         List<Text> texts = new ArrayList<>();
-        texts.add(new Text("name", new BoundingBox(new Point(0,0), new Point(100,100))));
+        texts.add(new Text("name", new BoundingBox(new Point(66,50), new Point(249,87))));
         Ticket ticket = new Ticket("template_1", new TicketImage(file.toAbsolutePath().normalize().toString()), texts);
         matcher.train(ticket);
 
         Optional<TicketMatch> match = matcher.match(new TicketImage(file.toAbsolutePath().normalize().toString()));
-        System.out.println("Is present: " + match.isPresent());
+        LOG.info("Is present: " + match.isPresent());
         if (match.isPresent()) {
-            System.out.println("Matched name: " + match.get().getTicket().getName());
+            LOG.info("Matched name: " + match.get().getTicket().getName());
 
             MetadataReader reader = cti.reader(Algorithms.SIFT.name());
-            Metadata data = reader.read(ticket, new TicketImage(file.toAbsolutePath().normalize().toString()));
+            Metadata data = reader.read(match.get().getTicket(), new TicketImage(file.toAbsolutePath().normalize().toString()));
             Map<String, String> extracted = data.getTexts();
             for(Map.Entry<String, String> entry : extracted.entrySet()) {
-                System.out.println("Key: " + entry.getKey() + "    Value: " + entry.getValue());
+                LOG.info("Key: " + entry.getKey() + "    Value: " + entry.getValue());
             }
 
             reader.delete();
@@ -68,11 +71,11 @@ class CtiTest {
         // Assert
         assertNotNull(matcher);
 
-        System.out.println("Delete all");
+        LOG.info("Delete all");
         matcher.delete();
-        System.out.println("Delete ticket");
+        LOG.info("Delete ticket");
         ticket.delete();
-        System.out.println("All deleted");
+        LOG.info("All deleted");
     }
 
     @Test

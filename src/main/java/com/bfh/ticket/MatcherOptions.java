@@ -5,9 +5,9 @@ package com.bfh.ticket;
  */
 public class MatcherOptions {
 
-    private static double USE_DEFAULT_RATIO_TEST_THRESHOLD = -1;
-    private static double USE_DEFAULT_SCORE_TEST_THRESHOLD = -1;
-    private static double USE_DEFAULT_SCORE_THRESHOLD = -1;
+    public static double USE_DEFAULT_RATIO_TEST_THRESHOLD = -1;
+    public static double USE_DEFAULT_SCORE_TEST_THRESHOLD = -1;
+    public static double USE_DEFAULT_SCORE_THRESHOLD = -1;
 
     private final double ratioTestThreshold;
     private final double scoreTestThreshold;

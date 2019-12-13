@@ -5,8 +5,8 @@ package com.bfh.ticket;
  */
 public class MetadataReaderOptions {
 
-    private static double USE_DEFAULT_RATIO_THRESHOLD = -1;
-    private static String USE_DEFAULT_LANGUAGE = "";
+    public static double USE_DEFAULT_RATIO_THRESHOLD = -1;
+    public static String USE_DEFAULT_LANGUAGE = "";
 
     private final double ratioTestThreshold;
     private final String language;

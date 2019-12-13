@@ -64,7 +64,6 @@ class CtiTest {
             }
 
             reader.delete();
-            data.delete();
         }
 
         // Assert

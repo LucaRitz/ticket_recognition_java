@@ -45,7 +45,6 @@ public class Main {
             }
 
             reader.delete();
-            data.delete();
         }
 
         // Assert

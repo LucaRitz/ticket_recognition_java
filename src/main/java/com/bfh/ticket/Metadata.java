@@ -3,20 +3,14 @@ package com.bfh.ticket;
 import java.util.Map;
 
 public class Metadata {
-    private final long pointer;
 
-    private Metadata(long pointer) {
-        this.pointer = pointer;
+    private final Map<String, String> texts;
+
+    private Metadata(Map<String, String> texts) {
+        this.texts = texts;
     }
 
     public Map<String, String> getTexts() {
-        return getTexts(pointer);
+        return texts;
     }
-
-    public void delete() {
-        delete(pointer);
-    }
-
-    private native Map<String, String> getTexts(long pointer);
-    private native void delete(long pointer);
 }

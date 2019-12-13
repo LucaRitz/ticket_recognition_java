@@ -10,7 +10,6 @@ public class TicketImage {
     /**
      * Construct a TicketImage from a filepath pointing to an image file.
      * @param imagePath
-     * @throws CtiException if the image at the given filepath could not be loaded.
      */
     public TicketImage(String imagePath) {
         this.imagePath = imagePath;

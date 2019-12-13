@@ -13,7 +13,7 @@ public class MetadataReader {
         this.pointer = initialize(algorithm, options);
     }
 
-    public Metadata read(Ticket ticket, TicketImage image) {
+    public Metadata read(Ticket ticket, TicketImage image) throws CtiException {
         return read(pointer, ticket.getPointer(), image);
     }
 

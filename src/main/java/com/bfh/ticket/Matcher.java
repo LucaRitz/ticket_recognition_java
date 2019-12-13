@@ -18,11 +18,11 @@ public class Matcher {
         this.pointer = initialize(algorithm, options);
     }
 
-    public void train(Ticket ticket) {
+    public void train(Ticket ticket) throws CtiException {
         train(pointer, ticket);
     }
 
-    public void train(List<Ticket> tickets) {
+    public void train(List<Ticket> tickets) throws CtiException {
         train(pointer, tickets);
     }
 

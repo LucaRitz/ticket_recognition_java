@@ -26,6 +26,10 @@ public class Matcher {
         train(pointer, tickets);
     }
 
+    public void untrain(Ticket ticket) {
+        untrain(pointer, ticket.getPointer());
+    }
+
     public Optional<TicketMatch> match(TicketImage image) {
         return match(pointer, image);
     }
@@ -37,6 +41,7 @@ public class Matcher {
     private native long initialize(Algorithm algorithm, MatcherOptions options);
     private native void train(long pointer, Ticket ticket) throws CtiException;
     private native void train(long pointer, List<Ticket> tickets) throws CtiException;
+    private native void untrain(long pointer, long ticketPointer);
     private native Optional<TicketMatch> match(long pointer, TicketImage image);
     private native void delete(long pointer);
 }

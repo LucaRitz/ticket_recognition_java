@@ -65,6 +65,7 @@ class CtiTest {
 
             reader.delete();
         }
+        matcher.untrain(ticket);
 
         // Assert
         assertNotNull(matcher);

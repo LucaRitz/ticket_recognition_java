@@ -46,6 +46,7 @@ public class Main {
 
             reader.delete();
         }
+        matcher.untrain(ticket);
 
         // Assert
 

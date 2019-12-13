@@ -1,10 +1,16 @@
 package com.bfh.ticket;
 
+import com.bfh.ticket.exception.CtiException;
+
 public class MetadataReader {
     private final long pointer;
 
-    private MetadataReader(long pointer) {
-        this.pointer = pointer;
+    public MetadataReader(Algorithm algorithm) {
+        this(algorithm, new MetadataReaderOptions());
+    }
+
+    public MetadataReader(Algorithm algorithm, MetadataReaderOptions options) {
+        this.pointer = initialize(algorithm, options);
     }
 
     public Metadata read(Ticket ticket, TicketImage image) {
@@ -15,6 +21,7 @@ public class MetadataReader {
         delete(pointer);
     }
 
-    private native Metadata read(long pointer, long ticketPointer, TicketImage image);
+    private native long initialize(Algorithm algorithm, MetadataReaderOptions options);
+    private native Metadata read(long pointer, long ticketPointer, TicketImage image) throws CtiException;
     private native void delete(long pointer);
 }

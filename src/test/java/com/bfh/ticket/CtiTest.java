@@ -25,7 +25,8 @@ class CtiTest {
 
     private static final Logger LOG = Logger.getLogger(CtiTest.class.getName());
 
-    private Cti cti;
+    private Matcher matcher;
+    private MetadataReader reader;
 
     @BeforeAll
     static void init() {
@@ -38,14 +39,13 @@ class CtiTest {
 
     @BeforeEach
     void setUp() {
-        cti = new Cti();
+        this.matcher = new Matcher(Algorithm.SIFT);
+        this.reader = new MetadataReader(Algorithm.SIFT);
     }
 
     @Test
     void cti_createMatcherAndDelete_matcherCreated() throws IOException {
         // Act
-        Matcher matcher = cti.matcher(Algorithms.SIFT.name());
-
         Path file = extract(CtiTest.class.getResourceAsStream("/Ticket.jpg"));
         List<Text> texts = new ArrayList<>();
         texts.add(new Text("name", new BoundingBox(new Point(66,50), new Point(249,87))));
@@ -57,7 +57,6 @@ class CtiTest {
         if (match.isPresent()) {
             LOG.info("Matched name: " + match.get().getTicket().getName());
 
-            MetadataReader reader = cti.reader(Algorithms.SIFT.name());
             Metadata data = reader.read(match.get().getTicket(), new TicketImage(file.toAbsolutePath().normalize().toString()));
             Map<String, String> extracted = data.getTexts();
             for(Map.Entry<String, String> entry : extracted.entrySet()) {

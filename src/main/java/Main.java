@@ -22,10 +22,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        Cti cti = new Cti();
-
         // Act
-        Matcher matcher = cti.matcher(Algorithms.SIFT.name());
+        Matcher matcher = new Matcher(Algorithm.SIFT);
 
         Path file = extract(Main.class.getResourceAsStream("/Ticket.jpg"));
         List<Text> texts = new ArrayList<>();
@@ -39,7 +37,7 @@ public class Main {
             System.out.println("Matched name: " + match.get().getTicket().getName());
             System.out.println("ticket image: " + match.get().getTicket().getImage().getImagePath());
 
-            MetadataReader reader = cti.reader(Algorithms.SIFT.name());
+            MetadataReader reader = new MetadataReader(Algorithm.SIFT);
             Metadata data = reader.read(ticket, new TicketImage(file.toAbsolutePath().normalize().toString()));
             Map<String, String> extracted = data.getTexts();
             for(Map.Entry<String, String> entry : extracted.entrySet()) {

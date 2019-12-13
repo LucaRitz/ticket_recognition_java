@@ -1,4 +1,5 @@
 import com.bfh.ticket.*;
+import com.bfh.ticket.exception.CtiException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,13 +30,19 @@ public class Main {
         List<Text> texts = new ArrayList<>();
         texts.add(new Text("name", new BoundingBox(new Point(0,0), new Point(100,100))));
         Ticket ticket = new Ticket("template_1", new TicketImage(file.toAbsolutePath().normalize().toString()), texts);
-        matcher.train(ticket);
+
+        try {
+            matcher.train(ticket);
+        } catch (CtiException exc) {
+            System.out.println("Exception thrown: " + exc.getMessage());
+        }
 
         Optional<TicketMatch> match = matcher.match(new TicketImage(file.toAbsolutePath().normalize().toString()));
         System.out.println("Is present: " + match.isPresent());
         if (match.isPresent()) {
             System.out.println("Matched name: " + match.get().getTicket().getName());
             System.out.println("ticket image: " + match.get().getTicket().getImage().getImagePath());
+            System.out.println("Score: " + match.get().getScore());
 
             MetadataReader reader = new MetadataReader(Algorithm.SIFT);
             Metadata data = reader.read(ticket, new TicketImage(file.toAbsolutePath().normalize().toString()));
